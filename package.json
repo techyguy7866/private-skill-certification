@@ -1,0 +1,30 @@
+{
+  "name": "private-skill-certification",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@midnight-ntwrk/compact-runtime": "^0.7.0",
+    "@midnight-ntwrk/ledger": "^0.7.0",
+    "@midnight-ntwrk/midnight-js-contracts": "^0.7.0",
+    "@midnight-ntwrk/midnight-js-http-proof-provider": "^0.7.0",
+    "@midnight-ntwrk/midnight-js-level-l2-protocol": "^0.7.0",
+    "@midnight-ntwrk/midnight-js-network-id": "^0.7.0",
+    "@midnight-ntwrk/midnight-js-types": "^0.7.0",
+    "@midnight-ntwrk/midnight-js-fetch-indexer-provider": "^0.7.0",
+    "@midnight-ntwrk/zswap": "^0.7.0",
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.1",
+    "vitest": "^2.0.5"
+  }
+}
