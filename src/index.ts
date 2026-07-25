@@ -1,6 +1,6 @@
 import { PrivateSkillCertificationClient, CONTRACT_ADDRESS, getProofServerUrl } from './integration/contract.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+function initApp() {
   const client = new PrivateSkillCertificationClient();
   
   const contractAddrEl = document.getElementById('contractAddr');
@@ -45,54 +45,57 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (connectWalletBtn) {
       connectWalletBtn.textContent = 'Connect Wallet';
       (connectWalletBtn as HTMLButtonElement).style.background = 'linear-gradient(135deg, #06b6d4, #3b82f6)';
-      connectWalletBtn.title = "Connect Midnight Lace Wallet";
+      connectWalletBtn.title = "Connect Midnight Lace Wallet or 1 AM Wallet";
     }
   };
 
   updateWalletUI();
 
-  connectWalletBtn?.addEventListener('click', async () => {
-    if (!walletConnected) {
-      if (logBoxEl) {
-        logBoxEl.innerHTML += `<div class="log-line info">> Requesting connection to browser Midnight Lace Wallet extension...</div>`;
-      }
-      try {
-        const res = await client.connectWallet();
-        walletConnected = true;
-        walletAddress = res.walletAddress;
-        updateWalletUI();
-
+  if (connectWalletBtn) {
+    connectWalletBtn.onclick = async (e) => {
+      e.preventDefault();
+      if (!walletConnected) {
         if (logBoxEl) {
-          logBoxEl.innerHTML += `<div class="log-line success">> [WALLET CONNECTED] Address: ${res.walletAddress}</div>`;
-          logBoxEl.innerHTML += `<div class="log-line info">> [FAUCET] Need test tokens? Visit <a href="https://faucet.preprod.midnight.network" target="_blank" style="color:#22d3ee; text-decoration:underline;">Midnight Preprod Faucet</a></div>`;
-          logBoxEl.scrollTop = logBoxEl.scrollHeight;
+          logBoxEl.innerHTML += `<div class="log-line info">> Requesting connection to browser Midnight Lace / 1 AM Wallet extension...</div>`;
         }
-      } catch (err: any) {
-        walletConnected = false;
-        walletAddress = '';
-        updateWalletUI();
+        try {
+          const res = await client.connectWallet();
+          walletConnected = true;
+          walletAddress = res.walletAddress;
+          updateWalletUI();
 
-        const errorMsg = err?.message || "Failed to connect to Midnight Lace Wallet extension.";
-        alert(`Wallet Connection Error:\n\n${errorMsg}`);
+          if (logBoxEl) {
+            logBoxEl.innerHTML += `<div class="log-line success">> [WALLET CONNECTED] Address: ${res.walletAddress}</div>`;
+            logBoxEl.innerHTML += `<div class="log-line info">> [FAUCET] Need test tokens? Visit <a href="https://faucet.preprod.midnight.network" target="_blank" style="color:#22d3ee; text-decoration:underline;">Midnight Preprod Faucet</a></div>`;
+            logBoxEl.scrollTop = logBoxEl.scrollHeight;
+          }
+        } catch (err: any) {
+          walletConnected = false;
+          walletAddress = '';
+          updateWalletUI();
 
-        if (logBoxEl) {
-          logBoxEl.innerHTML += `<div class="log-line error">> [ERROR] ${errorMsg}</div>`;
-          logBoxEl.scrollTop = logBoxEl.scrollHeight;
+          const errorMsg = err?.message || "Failed to connect to Midnight Wallet extension.";
+          alert(`Wallet Connection Error:\n\n${errorMsg}`);
+
+          if (logBoxEl) {
+            logBoxEl.innerHTML += `<div class="log-line error">> [ERROR] ${errorMsg}</div>`;
+            logBoxEl.scrollTop = logBoxEl.scrollHeight;
+          }
+        }
+      } else {
+        try {
+          await navigator.clipboard.writeText(walletAddress);
+          alert(`📋 Wallet Address Copied!\n\n${walletAddress}\n\nPaste this into the Midnight Preprod Faucet to receive test tokens.`);
+          if (logBoxEl) {
+            logBoxEl.innerHTML += `<div class="log-line success">> [COPIED] Wallet address copied: ${walletAddress}</div>`;
+            logBoxEl.scrollTop = logBoxEl.scrollHeight;
+          }
+        } catch (e) {
+          alert(`Your Full Wallet Address:\n\n${walletAddress}`);
         }
       }
-    } else {
-      try {
-        await navigator.clipboard.writeText(walletAddress);
-        alert(`📋 Wallet Address Copied!\n\n${walletAddress}\n\nPaste this into the Midnight Preprod Faucet to receive test tokens.`);
-        if (logBoxEl) {
-          logBoxEl.innerHTML += `<div class="log-line success">> [COPIED] Wallet address copied: ${walletAddress}</div>`;
-          logBoxEl.scrollTop = logBoxEl.scrollHeight;
-        }
-      } catch (e) {
-        alert(`Your Full Wallet Address:\n\n${walletAddress}`);
-      }
-    }
-  });
+    };
+  }
 
   formEl?.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -157,4 +160,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (applicantCountEl) applicantCountEl.textContent = "0";
     alert(`⚙️ Skill Program Updated & Session Incremented to Epoch #${session}!`);
   });
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
