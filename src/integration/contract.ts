@@ -71,8 +71,34 @@ export class PrivateSkillCertificationClient {
 
     const midnightObj = (window as any).midnight;
     const laceObj = (window as any).lace;
+    const oneAmObj = (window as any).oneAm || (window as any).oneam || (window as any)['1am'];
+    const nightObj = (window as any).night;
 
-    const walletProvider = midnightObj?.mnLace || midnightObj?.lace || laceObj?.mnLace || laceObj?.lace || (window as any).midnightLace;
+    // Multi-wallet detection: Lace Wallet, 1 AM Wallet, Night Wallet
+    let walletProvider = null;
+
+    if (midnightObj) {
+      walletProvider = midnightObj.mnLace || 
+                       midnightObj.lace || 
+                       midnightObj['1am'] || 
+                       midnightObj.oneAm || 
+                       midnightObj.night;
+
+      if (!walletProvider) {
+        const keys = Object.keys(midnightObj);
+        if (keys.length > 0) {
+          walletProvider = midnightObj[keys[0]];
+        }
+      }
+    }
+
+    if (!walletProvider) {
+      walletProvider = laceObj?.mnLace || 
+                       laceObj?.lace || 
+                       oneAmObj || 
+                       nightObj || 
+                       (window as any).midnightLace;
+    }
 
     if (!walletProvider) {
       // Return a valid simulated preprod address for browser demo testing
