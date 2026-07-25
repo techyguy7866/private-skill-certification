@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Private Skill Certification | Midnight Network ZK dApp</title>
+  <meta name="description" content="Privacy-preserving zero-knowledge skill certification & assessment verification platform built on Midnight Network using Compact smart contracts.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Navbar -->
+    <header class="navbar">
+      <div class="navbar-container">
+        <a href="/index.html" class="brand">
+          <div class="brand-badge">📜</div>
+          <div>
+            <span class="brand-title">Private Skill Certification</span>
+            <span class="brand-subtitle">Midnight ZK Protocol</span>
+          </div>
+        </a>
+        <nav class="nav-links">
+          <a href="/index.html" class="nav-link active">Home</a>
+          <a href="/checkin.html" class="nav-link">Candidate Portal</a>
+          <a href="/admin.html" class="nav-link">Authority Admin</a>
+          <a href="/inspector.html" class="nav-link">ZK Inspector</a>
+          <a href="/explorer.html" class="nav-link">Chain Explorer</a>
+        </nav>
+        <div class="navbar-actions">
+          <div class="net-pill">
+            <span class="net-dot"></span>
+            <span>Preprod</span>
+          </div>
+          <button id="connectWalletBtn" class="btn btn-primary btn-sm">Connect Wallet</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Hero -->
+      <section class="hero-box">
+        <div class="hero-pill">
+          <span>⚡ Zero-Knowledge Skill Verification</span>
+        </div>
+        <h1 class="hero-title">
+          Prove Professional Skill Mastery <br/><span class="cyan-gradient">Without Exposing Identity or Test Scores</span>
+        </h1>
+        <p class="hero-sub">
+          Certify technical competencies and exam scores confidentially. Candidates generate zero-knowledge proofs directly in their browser on Midnight Network — proving skill credentials and score thresholds without revealing candidate identity, raw exam logs, or test attempts.
+        </p>
+        <div class="hero-cta-group">
+          <a href="/checkin.html" class="btn btn-primary btn-lg">Issue Private Certificate →</a>
+          <a href="/explorer.html" class="btn btn-secondary btn-lg">Explore On-Chain Ledger</a>
+        </div>
+      </section>
+
+      <!-- Key Features -->
+      <section class="features-grid">
+        <div class="card-item">
+          <div class="card-icon">⚡</div>
+          <h3 class="card-title">Verifiable Credentials</h3>
+          <p class="card-desc">Employers verify candidate skill mastery based purely on zero-knowledge cryptographic proofs, eliminating resume fraud while protecting candidate privacy.</p>
+        </div>
+        <div class="card-item">
+          <div class="card-icon">🔐</div>
+          <h3 class="card-title">Local ZK Witnesses</h3>
+          <p class="card-desc">Your secret candidate key, assessment nonces, and raw score vectors remain strictly inside your browser. Only cryptographic commitments touch the ledger.</p>
+        </div>
+        <div class="card-item">
+          <div class="card-icon">💎</div>
+          <h3 class="card-title">Compact ZK Engine</h3>
+          <p class="card-desc">Built with Midnight Network's Compact language for fast, trustless, and provably private smart contract execution.</p>
+        </div>
+      </section>
+
+      <!-- Privacy Model Comparison Grid -->
+      <section style="max-width: 1100px; margin: 3rem auto; padding: 0 1.5rem;">
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <h2 style="font-size: 2rem; color: var(--text-primary);">Zero-Knowledge Privacy Guarantee</h2>
+          <p style="color: var(--text-secondary); margin-top: 0.5rem;">Cryptographic isolation of candidate data versus public ledger visibility</p>
+        </div>
+
+        <div class="privacy-grid">
+          <div class="privacy-box private">
+            <h3 style="color: #f87171;">🔒 What Remains Private (Local Witness)</h3>
+            <ul class="privacy-list">
+              <li><span>Candidate Identity & ID Code</span> <span class="tag-private">Private</span></li>
+              <li><span>Exact Score & Raw Assessment Answers</span> <span class="tag-private">Private</span></li>
+              <li><span>Number of Retakes & Failed Attempts</span> <span class="tag-private">Private</span></li>
+              <li><span>Candidate Secret Key & Nonces</span> <span class="tag-private">Private</span></li>
+            </ul>
+          </div>
+
+          <div class="privacy-box public">
+            <h3 style="color: var(--cyan-300);">🌐 What Is Public (On-Chain Ledger)</h3>
+            <ul class="privacy-list">
+              <li><span>Total Certified Candidates (`certificateCount`)</span> <span class="tag-public">Public</span></li>
+              <li><span>Certified Skill ID (`skillId`)</span> <span class="tag-public">Public</span></li>
+              <li><span>Certification Commitment Hash</span> <span class="tag-public">Public</span></li>
+              <li><span>Active Skill Session (`activeSession`)</span> <span class="tag-public">Public</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-container">
+        <p>Built with 🔒 on <a href="https://midnight.network" target="_blank" style="color: var(--cyan-400);">Midnight Network</a> using Compact Smart Contracts</p>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">Private Skill Certification (PSC) • Preprod Testnet</p>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="/src/index.ts"></script>
+</body>
+</html>
