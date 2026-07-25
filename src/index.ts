@@ -32,6 +32,68 @@ document.addEventListener('DOMContentLoaded', () => {
   let count = 0;
   let session = 1;
 
+  const status = client.getWalletStatus();
+  let walletConnected = status.connected;
+  let walletAddress = status.address || '';
+
+  // Sync wallet UI state across pages
+  const updateWalletUI = () => {
+    if (walletConnected && connectWalletBtn && walletAddress) {
+      connectWalletBtn.textContent = `🟢 ${walletAddress.substring(0, 10)}... (Copy)`;
+      (connectWalletBtn as HTMLButtonElement).style.background = 'linear-gradient(135deg, #059669, #047857)';
+      connectWalletBtn.title = `Connected Address: ${walletAddress}\nClick to copy full address!`;
+    } else if (connectWalletBtn) {
+      connectWalletBtn.textContent = 'Connect Wallet';
+      (connectWalletBtn as HTMLButtonElement).style.background = 'linear-gradient(135deg, #06b6d4, #3b82f6)';
+      connectWalletBtn.title = "Connect Midnight Lace Wallet";
+    }
+  };
+
+  updateWalletUI();
+
+  connectWalletBtn?.addEventListener('click', async () => {
+    if (!walletConnected) {
+      if (logBoxEl) {
+        logBoxEl.innerHTML += `<div class="log-line info">> Requesting connection to browser Midnight Lace Wallet extension...</div>`;
+      }
+      try {
+        const res = await client.connectWallet();
+        walletConnected = true;
+        walletAddress = res.walletAddress;
+        updateWalletUI();
+
+        if (logBoxEl) {
+          logBoxEl.innerHTML += `<div class="log-line success">> [WALLET CONNECTED] Address: ${res.walletAddress}</div>`;
+          logBoxEl.innerHTML += `<div class="log-line info">> [FAUCET] Need test tokens? Visit <a href="https://faucet.preprod.midnight.network" target="_blank" style="color:#22d3ee; text-decoration:underline;">Midnight Preprod Faucet</a></div>`;
+          logBoxEl.scrollTop = logBoxEl.scrollHeight;
+        }
+      } catch (err: any) {
+        walletConnected = false;
+        walletAddress = '';
+        updateWalletUI();
+
+        const errorMsg = err?.message || "Failed to connect to Midnight Lace Wallet extension.";
+        alert(`Wallet Connection Error:\n\n${errorMsg}`);
+
+        if (logBoxEl) {
+          logBoxEl.innerHTML += `<div class="log-line error">> [ERROR] ${errorMsg}</div>`;
+          logBoxEl.scrollTop = logBoxEl.scrollHeight;
+        }
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(walletAddress);
+        alert(`📋 Wallet Address Copied!\n\n${walletAddress}\n\nPaste this into the Midnight Preprod Faucet to receive test tokens.`);
+        if (logBoxEl) {
+          logBoxEl.innerHTML += `<div class="log-line success">> [COPIED] Wallet address copied: ${walletAddress}</div>`;
+          logBoxEl.scrollTop = logBoxEl.scrollHeight;
+        }
+      } catch (e) {
+        alert(`Your Full Wallet Address:\n\n${walletAddress}`);
+      }
+    }
+  });
+
   formEl?.addEventListener('submit', async (e) => {
     e.preventDefault();
 
