@@ -15,4 +15,15 @@ export default defineConfig({
       },
     },
   },
+  optimizeDeps: {
+    esbuildOptions: {
+      target: 'esnext'
+    }
+  },
+  server: {
+    port: 5177,
+    hmr: {
+      overlay: false
+    }
+  }
 });
