@@ -37,7 +37,6 @@ export circuit resetCertification(newSkillId: Bytes<32>): Bytes<32> {
   return skillId;
 }
 
-export circuit incrementSession(): Counter {
+export circuit incrementSession(): [] {
   activeSession.increment(1);
-  return activeSession;
 }

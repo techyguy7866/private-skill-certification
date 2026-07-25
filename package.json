@@ -1,30 +1,35 @@
 {
   "name": "private-skill-certification",
-  "private": true,
   "version": "1.0.0",
+  "description": "Private Skill Certification (PSC) — Privacy-preserving zero-knowledge professional skill certification & assessment verification dApp built on the Midnight Network using Compact smart contracts.",
   "type": "module",
+  "main": "src/index.ts",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "test": "vitest run"
+    "compile": "compact compile contracts/counter.compact managed",
+    "test": "vitest run",
+    "build": "tsc --noEmit && vite build",
+    "deploy": "node --loader ts-node/esm src/integration/deploy.ts"
   },
   "dependencies": {
-    "@midnight-ntwrk/compact-runtime": "^0.7.0",
-    "@midnight-ntwrk/ledger": "^0.7.0",
-    "@midnight-ntwrk/midnight-js-contracts": "^0.7.0",
-    "@midnight-ntwrk/midnight-js-http-proof-provider": "^0.7.0",
-    "@midnight-ntwrk/midnight-js-level-l2-protocol": "^0.7.0",
-    "@midnight-ntwrk/midnight-js-network-id": "^0.7.0",
-    "@midnight-ntwrk/midnight-js-types": "^0.7.0",
-    "@midnight-ntwrk/midnight-js-fetch-indexer-provider": "^0.7.0",
-    "@midnight-ntwrk/zswap": "^0.7.0",
-    "rxjs": "^7.8.1"
+    "@midnight-ntwrk/compact-runtime": "0.16.0",
+    "@midnight-ntwrk/dapp-connector-api": "4.0.1",
+    "@midnight-ntwrk/midnight-js-contracts": "4.1.1",
+    "@midnight-ntwrk/midnight-js-fetch-zk-config-provider": "4.1.1",
+    "@midnight-ntwrk/midnight-js-http-client-proof-provider": "4.1.1",
+    "@midnight-ntwrk/midnight-js-indexer-public-data-provider": "4.1.1",
+    "@midnight-ntwrk/midnight-js-level-private-state-provider": "4.1.1",
+    "@midnight-ntwrk/midnight-js-network-id": "4.1.1",
+    "@midnight-ntwrk/midnight-js-node-zk-config-provider": "4.1.1",
+    "@midnight-ntwrk/midnight-js-protocol": "4.1.1",
+    "@midnight-ntwrk/midnight-js-types": "4.1.1",
+    "@midnight-ntwrk/midnight-js-utils": "4.1.1"
   },
   "devDependencies": {
-    "@types/node": "^22.0.0",
-    "typescript": "^5.5.4",
-    "vite": "^5.4.1",
-    "vitest": "^2.0.5"
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.9.3",
+    "vite": "^5.4.11",
+    "vitest": "^3.0.5"
   }
 }
