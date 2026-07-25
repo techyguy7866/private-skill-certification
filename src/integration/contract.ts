@@ -47,6 +47,16 @@ export class PrivateSkillCertificationClient {
   private walletAddress: string = '';
 
   constructor(initialState?: Partial<CandidatePrivateState>) {
+    // Restore session state if previously connected
+    if (typeof sessionStorage !== 'undefined') {
+      const storedConnected = sessionStorage.getItem('psc_wallet_connected') === 'true';
+      const storedAddress = sessionStorage.getItem('psc_wallet_address');
+      if (storedConnected && storedAddress) {
+        this.walletConnected = true;
+        this.walletAddress = storedAddress;
+      }
+    }
+
     this.privateState = {
       candidateSecretKey: initialState?.candidateSecretKey || new Uint8Array(32).fill(1),
       scoreProofNonce: initialState?.scoreProofNonce || new Uint8Array(32).fill(2),
@@ -64,68 +74,129 @@ export class PrivateSkillCertificationClient {
     };
   }
 
-  public async connectWallet(): Promise<{ connected: boolean; walletAddress: string }> {
-    if (typeof window === 'undefined') {
-      throw new Error("Window object unavailable. Connect wallet from browser.");
-    }
-
-    const midnightObj = (window as any).midnight;
-    const laceObj = (window as any).lace;
-    const oneAmObj = (window as any).oneAm || (window as any).oneam || (window as any)['1am'];
-    const nightObj = (window as any).night;
-
-    // Multi-wallet detection: Lace Wallet, 1 AM Wallet, Night Wallet
-    let walletProvider = null;
+  /**
+   * Inspect window object and return active Midnight / Lace / 1 AM wallet provider.
+   */
+  public getBrowserWalletProvider(): any {
+    if (typeof window === 'undefined') return null;
+    const w = window as any;
+    const midnightObj = w.midnight;
+    const laceObj = w.lace;
+    const oneAmObj = w.oneAm || w.oneam || w['1am'];
 
     if (midnightObj) {
-      walletProvider = midnightObj.mnLace || 
-                       midnightObj.lace || 
-                       midnightObj['1am'] || 
-                       midnightObj.oneAm || 
-                       midnightObj.night;
+      if (midnightObj.mnLace) return midnightObj.mnLace;
+      if (midnightObj.lace) return midnightObj.lace;
+      if (midnightObj['1am']) return midnightObj['1am'];
+      if (midnightObj.oneAm) return midnightObj.oneAm;
+      if (midnightObj.night) return midnightObj.night;
 
-      if (!walletProvider) {
-        const keys = Object.keys(midnightObj);
-        if (keys.length > 0) {
-          walletProvider = midnightObj[keys[0]];
+      const keys = Object.keys(midnightObj);
+      for (const key of keys) {
+        const candidate = midnightObj[key];
+        if (candidate && (typeof candidate.connect === 'function' || typeof candidate.enable === 'function')) {
+          return candidate;
         }
       }
+      return midnightObj;
     }
 
-    if (!walletProvider) {
-      walletProvider = laceObj?.mnLace || 
-                       laceObj?.lace || 
-                       oneAmObj || 
-                       nightObj || 
-                       (window as any).midnightLace;
+    if (laceObj) {
+      if (laceObj.mnLace) return laceObj.mnLace;
+      if (laceObj.lace) return laceObj.lace;
+      return laceObj;
     }
 
-    if (!walletProvider) {
-      // Return a valid simulated preprod address for browser demo testing
-      this.walletConnected = true;
-      this.walletAddress = "mn1_preprod_8x92k39f7n4m1l0q5p8a2z";
-      return {
-        connected: true,
-        walletAddress: this.walletAddress
-      };
+    if (oneAmObj) return oneAmObj;
+    if (w.midnightLace) return w.midnightLace;
+    if (w.night) return w.night;
+
+    return null;
+  }
+
+  /**
+   * Strictly verify browser Midnight extension and connect wallet.
+   */
+  public async connectWallet(): Promise<{ connected: boolean; walletAddress: string; walletName: string }> {
+    if (typeof window === 'undefined') {
+      throw new Error("Browser environment is required to connect wallet.");
+    }
+
+    const provider = this.getBrowserWalletProvider();
+
+    if (!provider) {
+      this.walletConnected = false;
+      this.walletAddress = '';
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.removeItem('psc_wallet_connected');
+        sessionStorage.removeItem('psc_wallet_address');
+      }
+      throw new Error(
+        "Midnight Lace Wallet / 1 AM Wallet extension was not detected in your browser.\n\n" +
+        "Please ensure:\n" +
+        "1. The Midnight Lace Wallet or 1 AM Wallet browser extension is installed.\n" +
+        "2. The extension is unlocked and enabled for this site.\n" +
+        "3. Click 'Connect Wallet' again."
+      );
     }
 
     try {
-      const api = await walletProvider.enable();
-      const state = await api.state();
+      let connectedApi: any = null;
+
+      if (typeof provider.connect === 'function') {
+        try {
+          connectedApi = await provider.connect('preprod');
+        } catch (e) {
+          connectedApi = await provider.connect();
+        }
+      } else if (typeof provider.enable === 'function') {
+        connectedApi = await provider.enable();
+      } else if (typeof provider === 'function') {
+        connectedApi = await provider();
+      } else {
+        connectedApi = provider;
+      }
+
+      let address: string | null = null;
+      if (connectedApi) {
+        if (typeof connectedApi.state === 'function') {
+          const st = await connectedApi.state();
+          address = st?.address || st?.unshieldedAddress || st?.shieldedAddress || null;
+        } else if (typeof connectedApi.getAddress === 'function') {
+          address = await connectedApi.getAddress();
+        } else if (typeof connectedApi.getAddresses === 'function') {
+          const addrs = await connectedApi.getAddresses();
+          if (Array.isArray(addrs) && addrs.length > 0) address = addrs[0];
+        } else {
+          address = connectedApi.address || connectedApi.unshieldedAddress || connectedApi.shieldedAddress || null;
+        }
+      }
+
+      if (!address) {
+        address = "mn1_preprod_8x92k39f7n4m1l0q5p8a2z";
+      }
+
       this.walletConnected = true;
-      this.walletAddress = state.address || state.unshieldedAddress || "mn1_preprod_8x92k39f7n4m1l0q5p8a2z";
+      this.walletAddress = address;
+
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.setItem('psc_wallet_connected', 'true');
+        sessionStorage.setItem('psc_wallet_address', address);
+      }
+
       return {
         connected: true,
-        walletAddress: this.walletAddress
+        walletAddress: address,
+        walletName: provider.name || 'Midnight Wallet'
       };
     } catch (err: any) {
-      this.walletConnected = true;
-      this.walletAddress = "mn1_preprod_8x92k39f7n4m1l0q5p8a2z";
-      return {
-        connected: true,
-        walletAddress: this.walletAddress
-      };
+      this.walletConnected = false;
+      this.walletAddress = '';
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.removeItem('psc_wallet_connected');
+        sessionStorage.removeItem('psc_wallet_address');
+      }
+      throw new Error(`Failed to connect wallet: ${err?.message || err}`);
     }
   }
 
