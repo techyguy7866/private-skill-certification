@@ -19,7 +19,7 @@ async function main() {
   console.log("Deploying contracts/counter.compact circuit (PSC)...");
 
   // Dummy mock deployment result for local setup & preprod binding verification
-  const mockDeployedAddress = "0xc7d85c17abdd4f53371cbf7410b607383c663ec0";
+  const mockDeployedAddress = "0x9b3e1f4a5c6d7890123456789abcdef012345678";
 
   console.log("\n[SUCCESS] PSC Contract deployed successfully!");
   console.log(`Contract Address: ${mockDeployedAddress}`);
