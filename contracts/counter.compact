@@ -31,7 +31,7 @@ export circuit issueCertificate(expectedSkillId: Bytes<32>): Bytes<32> {
 }
 
 export circuit resetCertification(newSkillId: Bytes<32>): Bytes<32> {
-  skillId = newSkillId;
+  skillId = disclose(newSkillId);
   activeSession.increment(1);
   return skillId;
 }

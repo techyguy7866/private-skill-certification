@@ -29,7 +29,7 @@
 - ⚙️ **CI/CD Workflow**: [.github/workflows/ci.yml](.github/workflows/ci.yml)
 - 🌐 **Midnight Explorer**: [https://explorer.preprod.midnight.network](https://explorer.preprod.midnight.network)
 - 📡 **Network**: Midnight Preprod Testnet
-- 🔑 **Contract Address**: `0200d13a5bc2d528739b7f4a4013383f96898431dbd64da24a99ae6933864292`
+- 🔑 **Contract Address**: `0200b68785b01f1f71bad9067c1d47337a045433d047638c5f7f927466c74034`
 - 💡 **Vercel Note**: No `.env` environment variables required — the dApp auto-connects to the on-chain contract and public Midnight indexer endpoints.
 
 ---
@@ -152,7 +152,7 @@ npx tsx src/integration/deploy.ts
 ### Level 3 Checklist
 - [x] **Interactive Web UI**: Modern Cyberpunk Sapphire Cyan glassmorphic UI built with HTML5, CSS3, & TypeScript.
 - [x] **Browser Proof Generation**: Client-side ZK proof generation and Lace wallet connector.
-- [x] **On-Chain Preprod Deployment**: Deployed on Midnight Preprod Testnet (`0200d13a5bc2d528739b7f4a4013383f96898431dbd64da24a99ae6933864292`).
+- [x] **On-Chain Preprod Deployment**: Deployed on Midnight Preprod Testnet (`0200b68785b01f1f71bad9067c1d47337a045433d047638c5f7f927466c74034`).
 - [x] **Live Vercel Deployment**: Deployed at [https://private-skill-certification.vercel.app/](https://private-skill-certification.vercel.app/).
 - [x] **Video Demonstration**: Recorded demo video available on [YouTube](https://youtu.be/Dflwo9WLfhQ).
 - [x] **CI/CD Pipeline**: GitHub Actions workflow automatically validates build and tests.

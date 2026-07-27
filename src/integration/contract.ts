@@ -7,7 +7,7 @@ import { Contract, type Ledger, type Witnesses } from '../../managed/contract/in
  * Connected smart contract address on Midnight Preprod Testnet.
  * Deploy locally via WSL: npx tsx src/integration/deploy.ts
  */
-export const CONTRACT_ADDRESS = "0200d13a5bc2d528739b7f4a4013383f96898431dbd64da24a99ae6933864292";
+export const CONTRACT_ADDRESS = "0200b68785b01f1f71bad9067c1d47337a045433d047638c5f7f927466c74034";
 
 export const getProofServerUrl = (): string => {
   if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
