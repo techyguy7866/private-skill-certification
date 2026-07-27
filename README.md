@@ -36,28 +36,14 @@
 
 ## 📸 Platform Screenshots
 
-<div align="center">
-
-### 🌐 1. Private Skill Certification — Landing Page
+### 1. Private Skill Certification — Landing Page
 ![Private Skill Certification Landing Page](photos/image.png)
 
-*Privacy-preserving zero-knowledge professional skill assessment interface built on Midnight Network.*
-
-<br/>
-
-### 🔒 2. Zero-Knowledge Proof Generation & Skill Certification
+### 2. Zero-Knowledge Proof Generation & Skill Certification
 ![ZK Proof Generation & Skill Certification](photos/image-1.png)
 
-*Real-time ZK proof creation, witness computation, and verified certification state update.*
-
-<br/>
-
-### 🔍 3. Multi-Page Dashboard & On-Chain Explorer
+### 3. Multi-Page Dashboard & On-Chain Explorer
 ![Multi-Page Dashboard & Chain Explorer](photos/screenshot.png)
-
-*Live on-chain stats, active certification track epoch, and cryptographic commitment history.*
-
-</div>
 
 ---
 
