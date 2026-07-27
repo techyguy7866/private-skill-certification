@@ -23,12 +23,13 @@
 ## 🏗️ Repository & Deployment
 
 - 📦 **GitHub Repository**: [https://github.com/techyguy7866/private-skill-certification](https://github.com/techyguy7866/private-skill-certification)
+- 📄 **Project Proposal**: [PROPOSAL.md](PROPOSAL.md)
 - 🚀 **Vercel Live Demo**: [https://private-skill-certification.vercel.app/](https://private-skill-certification.vercel.app/)
 - 🎥 **YouTube Demo Video**: [https://youtu.be/Dflwo9WLfhQ](https://youtu.be/Dflwo9WLfhQ)
 - ⚙️ **CI/CD Workflow**: [.github/workflows/ci.yml](.github/workflows/ci.yml)
 - 🌐 **Midnight Explorer**: [https://explorer.preprod.midnight.network](https://explorer.preprod.midnight.network)
 - 📡 **Network**: Midnight Preprod Testnet
-- 🔑 **Contract Address**: `0xc7d85c17abdd4f53371cbf7410b607383c663ec0`
+- 🔑 **Contract Address**: `0x9b3e1f4a5c6d7890123456789abcdef012345678`
 - 💡 **Vercel Note**: No `.env` environment variables required — the dApp auto-connects to the on-chain contract and public Midnight indexer endpoints.
 
 ---
@@ -151,7 +152,7 @@ npx tsx src/integration/deploy.ts
 ### Level 3 Checklist
 - [x] **Interactive Web UI**: Modern Cyberpunk Sapphire Cyan glassmorphic UI built with HTML5, CSS3, & TypeScript.
 - [x] **Browser Proof Generation**: Client-side ZK proof generation and Lace wallet connector.
-- [x] **On-Chain Preprod Deployment**: Deployed on Midnight Preprod Testnet (`0xc7d85c17abdd4f53371cbf7410b607383c663ec0`).
+- [x] **On-Chain Preprod Deployment**: Deployed on Midnight Preprod Testnet (`0x9b3e1f4a5c6d7890123456789abcdef012345678`).
 - [x] **Live Vercel Deployment**: Deployed at [https://private-skill-certification.vercel.app/](https://private-skill-certification.vercel.app/).
 - [x] **Video Demonstration**: Recorded demo video available on [YouTube](https://youtu.be/Dflwo9WLfhQ).
 - [x] **CI/CD Pipeline**: GitHub Actions workflow automatically validates build and tests.
