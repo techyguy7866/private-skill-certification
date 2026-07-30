@@ -1,11 +1,12 @@
 import { PrivateSkillCertificationClient, CONTRACT_ADDRESS, getProofServerUrl } from './integration/contract.js';
 
+const client = new PrivateSkillCertificationClient();
+
 function initApp() {
-  const client = new PrivateSkillCertificationClient();
-  
   const contractAddrEl = document.getElementById('contractAddr');
   const applicantCountEl = document.getElementById('attendeeCountDisplay');
   const sessionEl = document.getElementById('sessionDisplay');
+  const lastCommitmentEl = document.getElementById('lastCommitment');
   const logBoxEl = document.getElementById('logBox');
   const formEl = document.getElementById('applyScholarshipForm') as HTMLFormElement;
   const scholarshipInput = document.getElementById('scholarshipInput') as HTMLInputElement;
@@ -16,7 +17,13 @@ function initApp() {
   const connectWalletBtn = document.getElementById('connectWalletBtn');
   const proofProviderEl = document.getElementById('proofProviderEl');
   const explorerProofServerEl = document.getElementById('explorerProofServerEl');
+
+  // Admin page elements
   const resetExamForm = document.getElementById('resetExamForm') as HTMLFormElement;
+  const newOrganizerInput = document.getElementById('newOrganizerInput') as HTMLInputElement;
+  const incrementSessionBtn = document.getElementById('incrementSessionBtn');
+  const adminLogArea = document.getElementById('adminLogArea');
+  const adminLogBox = document.getElementById('adminLogBox');
 
   const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
 
@@ -40,23 +47,28 @@ function initApp() {
   const updateWalletUI = () => {
     if (walletConnected && connectWalletBtn && walletAddress) {
       connectWalletBtn.textContent = `🟢 ${walletAddress.substring(0, 10)}... (Copy)`;
-      (connectWalletBtn as HTMLButtonElement).style.background = 'linear-gradient(135deg, #059669, #047857)';
+      (connectWalletBtn as HTMLButtonElement).style.background = 'linear-gradient(135deg, #0891b2, #0e7490)';
       connectWalletBtn.title = `Connected Address: ${walletAddress}\nClick to copy full address!`;
     } else if (connectWalletBtn) {
       connectWalletBtn.textContent = 'Connect Wallet';
-      (connectWalletBtn as HTMLButtonElement).style.background = 'linear-gradient(135deg, #06b6d4, #3b82f6)';
-      connectWalletBtn.title = "Connect Midnight Lace Wallet or 1 AM Wallet";
+      (connectWalletBtn as HTMLButtonElement).style.background = 'linear-gradient(135deg, #06b6d4, #0891b2)';
+      connectWalletBtn.title = "Connect Midnight Lace Wallet";
     }
   };
 
+  // 1. Update Wallet UI immediately
   updateWalletUI();
 
+  // 2. Attach Connect Wallet click handler immediately (non-blocking)
   if (connectWalletBtn) {
     connectWalletBtn.onclick = async (e) => {
       e.preventDefault();
+      e.stopPropagation();
+
       if (!walletConnected) {
         if (logBoxEl) {
-          logBoxEl.innerHTML += `<div class="log-line info">> Requesting connection to browser Midnight Lace / 1 AM Wallet extension...</div>`;
+          logBoxEl.innerHTML += `<div class="log-line info">> Requesting connection to browser Midnight Lace Wallet extension...</div>`;
+          logBoxEl.scrollTop = logBoxEl.scrollHeight;
         }
         try {
           const res = await client.connectWallet();
@@ -65,7 +77,7 @@ function initApp() {
           updateWalletUI();
 
           if (logBoxEl) {
-            logBoxEl.innerHTML += `<div class="log-line success">> [WALLET CONNECTED] Address: ${res.walletAddress}</div>`;
+            logBoxEl.innerHTML += `<div class="log-line success">> [WALLET CONNECTED] Address: ${res.walletAddress} (${res.walletName})</div>`;
             logBoxEl.innerHTML += `<div class="log-line info">> [FAUCET] Need test tokens? Visit <a href="https://faucet.preprod.midnight.network" target="_blank" style="color:#22d3ee; text-decoration:underline;">Midnight Preprod Faucet</a></div>`;
             logBoxEl.scrollTop = logBoxEl.scrollHeight;
           }
@@ -74,7 +86,7 @@ function initApp() {
           walletAddress = '';
           updateWalletUI();
 
-          const errorMsg = err?.message || "Failed to connect to Midnight Wallet extension.";
+          const errorMsg = err?.message || "Failed to connect to Midnight Lace Wallet extension.";
           alert(`Wallet Connection Error:\n\n${errorMsg}`);
 
           if (logBoxEl) {
@@ -97,69 +109,157 @@ function initApp() {
     };
   }
 
-  formEl?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const skillId = scholarshipInput ? scholarshipInput.value : 'skill_cybersecurity_expert_2026';
-    const candidateKey = applicantKeyInput ? applicantKeyInput.value : '';
-    const payload = academicRecordInput ? academicRecordInput.value : '';
-
-    if (!candidateKey) {
-      alert("Please enter a Candidate Secret Key!");
-      return;
-    }
-
-    client.updateCandidateKey(candidateKey);
-    client.updateCertificationPayload(payload);
-
-    if (progressBar && progressFill) {
-      progressBar.style.display = 'block';
-      progressFill.style.width = '25%';
-    }
-
-    if (logBoxEl) {
-      logBoxEl.innerHTML += `<div class="log-line info">> [COMPACT ZK] Initiating issueCertificate circuit for Skill ID: "${skillId}"...</div>`;
-      logBoxEl.scrollTop = logBoxEl.scrollHeight;
-    }
-
-    setTimeout(() => {
-      if (progressFill) progressFill.style.width = '60%';
-      if (logBoxEl) {
-        logBoxEl.innerHTML += `<div class="log-line info">> [WITNESS] Resolving candidateSecretKey, scoreProofNonce, certificationRecordHash...</div>`;
-        logBoxEl.innerHTML += `<div class="log-line info">> [PROOF SERVER] Proving persistentHash<Vector<4, Bytes<32>>> circuit on Midnight...</div>`;
-        logBoxEl.scrollTop = logBoxEl.scrollHeight;
-      }
-    }, 1000);
-
-    setTimeout(() => {
-      if (progressFill) progressFill.style.width = '100%';
-      count++;
-
-      const dummyCommitment = "0x" + Array.from({length: 64}, () => Math.floor(Math.random() * 16).toString(16)).join('');
-
-      if (logBoxEl) {
-        logBoxEl.innerHTML += `<div class="log-line success">> [SUCCESS] ZK Proof Generated & Certified On-Chain!</div>`;
-        logBoxEl.innerHTML += `<div class="log-line success">> Disclosed Commitment Hash: ${dummyCommitment}</div>`;
-        logBoxEl.scrollTop = logBoxEl.scrollHeight;
-      }
-
+  // 3. Asynchronously fetch public ledger state from indexer (non-blocking)
+  client.fetchPublicState().then((publicState) => {
+    if (publicState.certificateCount > 0) {
+      count = publicState.certificateCount;
       if (applicantCountEl) applicantCountEl.textContent = count.toString();
+    }
+    if (publicState.activeSession > 0) {
+      session = publicState.activeSession;
+      if (sessionEl) sessionEl.textContent = session.toString();
+    }
+    if (publicState.lastCertificationCommitment && lastCommitmentEl) {
+      lastCommitmentEl.textContent = publicState.lastCertificationCommitment;
+    }
+  }).catch((e) => {
+    console.warn("Could not query initial public state:", e);
+  });
 
-      setTimeout(() => {
+  // Handle Candidate issueCertificate() Circuit Call
+  if (formEl) {
+    formEl.onsubmit = async (e) => {
+      e.preventDefault();
+
+      const skillId = scholarshipInput ? scholarshipInput.value : 'skill_fullstack_zk_engineer_2026';
+      const candidateKey = applicantKeyInput ? applicantKeyInput.value : '';
+      const payload = academicRecordInput ? academicRecordInput.value : '';
+
+      if (!candidateKey || candidateKey.trim().length === 0) {
+        alert("Please enter a Candidate Secret Key to generate the ZK witness!");
+        return;
+      }
+
+      client.updateCandidateKey(candidateKey);
+      client.updateCertificationRecord(payload || "default_certification_record_hash");
+
+      if (progressBar && progressFill) {
+        progressBar.style.display = 'block';
+        progressFill.style.width = '15%';
+      }
+
+      if (logBoxEl) {
+        logBoxEl.innerHTML += `<div class="log-line info">> [STEP 1/4] Constructing private witnesses: candidateSecretKey(), scoreProofNonce(), certificationRecordHash()...</div>`;
+        logBoxEl.innerHTML += `<div class="log-line info">> [STEP 2/4] Executing Compact ZK circuit issueCertificate() on Midnight Network...</div>`;
+        logBoxEl.scrollTop = logBoxEl.scrollHeight;
+      }
+
+      try {
+        if (progressFill) progressFill.style.width = '65%';
+
+        // Real Midnight Smart Contract Circuit Call
+        const result = await client.issueCertificate(skillId);
+
+        walletConnected = true;
+        walletAddress = result.signedBy || walletAddress;
+        updateWalletUI();
+
+        if (progressFill) progressFill.style.width = '100%';
+
+        count++;
+        if (applicantCountEl) applicantCountEl.textContent = count.toString();
+        if (lastCommitmentEl) lastCommitmentEl.textContent = result.commitmentHex || '0x...';
+
+        if (logBoxEl) {
+          const feeStatusNote = result.walletFunded
+            ? `(Deducted from Lace Wallet Balance)`
+            : `(Note: Wallet unfunded — get test tokens at <a href="https://faucet.preprod.midnight.network" target="_blank" style="color:#22d3ee; text-decoration:underline;">Midnight Faucet</a>)`;
+
+          const blockInfo = result.blockHeight ? ` | Block #${result.blockHeight}` : '';
+
+          logBoxEl.innerHTML += `<div class="log-line info">> [STEP 3/4] Signed by Lace Wallet: ${result.signedBy} | Fee: ${result.txFee} ${result.txFeeAsset} ${feeStatusNote}</div>`;
+          logBoxEl.innerHTML += `<div class="log-line success">> [STEP 4/4] ✓ Compact issueCertificate() Executed! On-Chain Commitment: ${result.commitmentHex} | TxHash: ${result.txHash}${blockInfo}</div>`;
+          logBoxEl.scrollTop = logBoxEl.scrollHeight;
+        }
+
+        setTimeout(() => {
+          if (progressBar) progressBar.style.display = 'none';
+          if (progressFill) progressFill.style.width = '0%';
+        }, 800);
+
+      } catch (err: any) {
         if (progressBar) progressBar.style.display = 'none';
-      }, 1200);
+        alert(`Skill Certification Circuit Error: ${err?.message}`);
+        if (logBoxEl) {
+          logBoxEl.innerHTML += `<div class="log-line error">> [ERROR] ${err?.message}</div>`;
+          logBoxEl.scrollTop = logBoxEl.scrollHeight;
+        }
+      }
+    };
+  }
 
-    }, 2500);
-  });
+  // Handle Authority resetCertification() Circuit Call
+  if (resetExamForm) {
+    resetExamForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const newSkillVal = newOrganizerInput ? newOrganizerInput.value : '';
 
-  resetExamForm?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    session++;
-    count = 0;
-    if (sessionEl) sessionEl.textContent = session.toString();
-    if (applicantCountEl) applicantCountEl.textContent = "0";
-    alert(`⚙️ Skill Program Updated & Session Incremented to Epoch #${session}!`);
-  });
+      if (!newSkillVal || newSkillVal.trim().length === 0) {
+        alert("Please enter a valid Skill Program ID string.");
+        return;
+      }
+
+      try {
+        // Real Midnight Smart Contract Circuit Call
+        const res = await client.resetCertification(newSkillVal);
+
+        session++;
+        if (sessionEl) sessionEl.textContent = session.toString();
+
+        if (adminLogArea && adminLogBox) {
+          adminLogArea.style.display = 'block';
+          adminLogBox.innerHTML = `
+            <strong>Circuit:</strong> resetCertification(newSkillId: Bytes&lt;32&gt;)<br>
+            <strong>New Skill Program ID:</strong> ${res.newSkillId}<br>
+            <strong>On-Chain TxHash:</strong> ${res.txHash}<br>
+            <strong>Signed By:</strong> ${res.signedBy}<br>
+            <strong>Status:</strong> CONFIRMED (Midnight Preprod)
+          `;
+        }
+        alert(`✓ resetCertification() executed! TxHash: ${res.txHash}`);
+      } catch (err: any) {
+        alert(`resetCertification Circuit Call Failed:\n\n${err?.message || err}`);
+      }
+    };
+  }
+
+  // Handle Authority incrementSession() Circuit Call
+  if (incrementSessionBtn) {
+    incrementSessionBtn.onclick = async (e) => {
+      e.preventDefault();
+      try {
+        // Real Midnight Smart Contract Circuit Call
+        const res = await client.incrementSession();
+
+        session++;
+        if (sessionEl) sessionEl.textContent = session.toString();
+
+        if (adminLogArea && adminLogBox) {
+          adminLogArea.style.display = 'block';
+          adminLogBox.innerHTML = `
+            <strong>Circuit:</strong> incrementSession(): []<br>
+            <strong>Action:</strong> Active Certification Session Epoch Incremented (+1)<br>
+            <strong>On-Chain TxHash:</strong> ${res.txHash}<br>
+            <strong>Signed By:</strong> ${res.signedBy}<br>
+            <strong>Status:</strong> CONFIRMED (Midnight Preprod)
+          `;
+        }
+        alert(`✓ incrementSession() executed! TxHash: ${res.txHash}`);
+      } catch (err: any) {
+        alert(`incrementSession Circuit Call Failed:\n\n${err?.message || err}`);
+      }
+    };
+  }
 }
 
 if (document.readyState === 'loading') {
