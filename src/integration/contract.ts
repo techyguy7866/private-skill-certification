@@ -6,7 +6,7 @@ import { Contract, ledger, type Ledger, type Witnesses } from '../../managed/con
  * ============================================================================
  * Connected smart contract address on Midnight Preview Testnet.
  */
-export const CONTRACT_ADDRESS = "02005a7c29e1f3b804d9201f8c37d6e5a420b9213456789abcdef0123456789a";
+export const CONTRACT_ADDRESS = "b90200a15ae9484abb49079060581dc8c46ad5315d89d022fc6dd284aa0e1cbe2fafdd";
 
 export const getProofServerUrl = (): string => {
   if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
