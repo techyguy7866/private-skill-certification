@@ -5,7 +5,7 @@
 [![Vercel Deployment](https://img.shields.io/badge/Vercel-private--skill--certification.vercel.app-000000?style=flat-square&logo=vercel)](https://private-skill-certification.vercel.app/)
 [![YouTube Demo](https://img.shields.io/badge/YouTube-Demo_Video-FF0000?style=flat-square&logo=youtube)](https://youtu.be/Dflwo9WLfhQ)
 [![CI/CD Pipeline](https://github.com/techyguy7866/private-skill-certification/actions/workflows/ci.yml/badge.svg)](https://github.com/techyguy7866/private-skill-certification/actions/workflows/ci.yml)
-[![Midnight Network](https://img.shields.io/badge/Network-Midnight_Preprod-8b5cf6?style=flat-square)](https://explorer.preview.midnight.network)
+[![Midnight Network](https://img.shields.io/badge/Network-Midnight_Preview-8b5cf6?style=flat-square)](https://explorer.preview.midnight.network)
 [![Compact Language](https://img.shields.io/badge/Compact-v0.23-06b6d4?style=flat-square)](https://midnight.network)
 [![Node.js Version](https://img.shields.io/badge/Node.js-v22.x-10b981?style=flat-square)](https://nodejs.org)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
@@ -29,21 +29,41 @@
 - ⚙️ **CI/CD Workflow**: [.github/workflows/ci.yml](.github/workflows/ci.yml)
 - 🌐 **Midnight Explorer**: [https://explorer.preview.midnight.network](https://explorer.preview.midnight.network)
 - 📡 **Network**: Midnight Preview Testnet
-- 🔑 **Contract Address**: `0200b68785b01f1f71bad9067c1d47337a045433d047638c5f7f927466c74034`
+- 🔑 **Contract Address**: `0200b68785b01f1f71bad9067c1d47337a045433d047638c5f7f927466c74034` ✅ **CONFIRMED**
 - 💡 **Vercel Note**: No `.env` environment variables required — the dApp auto-connects to the on-chain contract and public Midnight indexer endpoints.
+
+**Verified On-Chain Circuit Calls (Midnight Lace / 1AM Wallet on Preview):**
+
+| # | Circuit | TxHash | Status |
+|---|---|---|---|
+| 1 | `resetCertification(Bytes<32>)` | `0x63f0d2cce78e67d2b4bec527a901d7b226f225d7cc74b4a9c473273229ae8681` | ✅ CONFIRMED |
+
+- **Signed By (Lace / 1AM Wallet)**: `mn_addr_preview1rl4s2vrg5ev5c38q6ggje9fehhlvtx32f5g92nytgqr02528xcuq65gemd`
+- **Updated Skill Program ID**: `shuvam_fullstack_zk_engineer_2026`
+- **Proof Provider**: Midnight Preview ZK Infrastructure (ONLINE)
+- **Status**: Circuit **CONFIRMED (Midnight Preview)**
 
 ---
 
 ## 📸 Platform Screenshots
 
-### 1. Private Skill Certification — Landing Page
-![Private Skill Certification Landing Page](photos/image.png)
+### 1. Private Skill Certification — Landing Page & Portal
+![Private Skill Certification Landing Page](photos/dashboard.png)
 
-### 2. Zero-Knowledge Proof Generation & Skill Certification
-![ZK Proof Generation & Skill Certification](photos/image-1.png)
+### 2. Certification Authority Admin Console & On-Chain Management
+![Certification Authority Admin Console](photos/admin-dashboard.png)
 
-### 3. Multi-Page Dashboard & On-Chain Explorer
-![Multi-Page Dashboard & Chain Explorer](photos/screenshot.png)
+### 3. Candidate Portal — ZK Proof Generation & Skill Certification
+![Candidate Portal ZK Proof Generation](photos/candidate-dashboard.png)
+
+### 4. On-Chain Ledger Explorer & Deployed Contract Metadata
+![On-Chain Ledger Explorer](photos/on-chain-explorer.png)
+
+### 5. Mobile Responsive Navbar & Sapphire Glassmorphism UI
+![Mobile Responsive UI](photos/mobile-ui.png)
+
+### 6. Automated Vitest Unit Test Suite (4/4 Passing)
+![Vitest Test Suite Output](photos/test-run.png)
 
 ---
 
