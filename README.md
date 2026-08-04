@@ -27,7 +27,7 @@
 - 🚀 **Vercel Live Demo**: [https://private-skill-certification.vercel.app/](https://private-skill-certification.vercel.app/)
 - 🎥 **YouTube Demo Video**: [https://youtu.be/Dflwo9WLfhQ](https://youtu.be/Dflwo9WLfhQ)
 - ⚙️ **CI/CD Workflow**: [.github/workflows/ci.yml](.github/workflows/ci.yml)
-- 🌐 **Midnight Explorer**: [https://preview.midnightexplorer.com/contracts/0xb90200a15ae9484abb49079060581dc8c46ad5315d89d022fc6dd284aa0e1cbe2fafdd](https://preview.midnightexplorer.com/contracts/0xb90200a15ae9484abb49079060581dc8c46ad5315d89d022fc6dd284aa0e1cbe2fafdd)
+- 🌐 **Midnight Explorer**: [https://preview.midnightexplorer.com/contracts/a15ae9484abb49079060581dc8c46ad5315d89d022fc6dd284aa0e1cbe2fafdd](https://preview.midnightexplorer.com/contracts/a15ae9484abb49079060581dc8c46ad5315d89d022fc6dd284aa0e1cbe2fafdd)
 - 📡 **Network**: Midnight Preview Testnet
 - 🔑 **Contract Address**: `0200a15ae9484abb49079060581dc8c46ad5315d89d022fc6dd284aa0e1cbe2fafdd` ✅ **CONFIRMED**
 - 🔍 **Explorer Search Address**: `b90200a15ae9484abb49079060581dc8c46ad5315d89d022fc6dd284aa0e1cbe2fafdd`
