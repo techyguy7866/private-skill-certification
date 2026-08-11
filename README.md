@@ -3,7 +3,7 @@
 
 [![GitHub Repo](https://img.shields.io/badge/GitHub-private--skill--certification-181717?style=flat-square&logo=github)](https://github.com/techyguy7866/private-skill-certification)
 [![Vercel Deployment](https://img.shields.io/badge/Vercel-private--skill--certification.vercel.app-000000?style=flat-square&logo=vercel)](https://private-skill-certification.vercel.app/)
-[![YouTube Demo](https://img.shields.io/badge/YouTube-Demo_Video-FF0000?style=flat-square&logo=youtube)](https://youtu.be/Dflwo9WLfhQ)
+[![YouTube Demo](https://img.shields.io/badge/YouTube-Demo_Video-FF0000?style=flat-square&logo=youtube)](https://youtu.be/wp4VpFtBhJg)
 [![Framework](https://img.shields.io/badge/Framework-Next.js_14-black?style=flat-square&logo=nextdotjs)](https://nextjs.org)
 [![CI/CD Pipeline](https://github.com/techyguy7866/private-skill-certification/actions/workflows/ci.yml/badge.svg)](https://github.com/techyguy7866/private-skill-certification/actions/workflows/ci.yml)
 [![Midnight Network](https://img.shields.io/badge/Network-Midnight_Preview-8b5cf6?style=flat-square)](https://explorer.preview.midnight.network)
@@ -26,12 +26,11 @@
 - 📦 **GitHub Repository**: [https://github.com/techyguy7866/private-skill-certification](https://github.com/techyguy7866/private-skill-certification)
 - 📄 **Project Proposal**: [PROPOSAL.md](PROPOSAL.md)
 - 🚀 **Vercel Live Demo**: [https://private-skill-certification.vercel.app/](https://private-skill-certification.vercel.app/)
-- 🎥 **YouTube Demo Video**: [https://youtu.be/Dflwo9WLfhQ](https://youtu.be/Dflwo9WLfhQ)
+- 🎥 **YouTube Demo Video**: [https://youtu.be/wp4VpFtBhJg](https://youtu.be/wp4VpFtBhJg)
 - ⚙️ **CI/CD Workflow**: [.github/workflows/ci.yml](.github/workflows/ci.yml)
 - 🌐 **Midnight Explorer**: [https://preview.midnightexplorer.com/contracts/a15ae9484abb49079060581dc8c46ad5315d89d022fc6dd284aa0e1cbe2fafdd](https://preview.midnightexplorer.com/contracts/a15ae9484abb49079060581dc8c46ad5315d89d022fc6dd284aa0e1cbe2fafdd)
 - 📡 **Network**: Midnight Preview Testnet
-- 🔑 **Contract Address**: `0200a15ae9484abb49079060581dc8c46ad5315d89d022fc6dd284aa0e1cbe2fafdd` ✅ **CONFIRMED**
-- 🔍 **Explorer Search Address**: `b90200a15ae9484abb49079060581dc8c46ad5315d89d022fc6dd284aa0e1cbe2fafdd`
+- 🔑 **Contract Address**: `a15ae9484abb49079060581dc8c46ad5315d89d022fc6dd284aa0e1cbe2fafdd` ✅ **CONFIRMED**
 - 💡 **Vercel Note**: No `.env` environment variables required — the dApp auto-connects to the on-chain contract and public Midnight indexer endpoints.
 
 **Verified On-Chain Circuit Calls (Midnight Lace / 1AM Wallet on Preview):**
@@ -50,22 +49,19 @@
 ## 📸 Platform Screenshots
 
 ### 1. Private Skill Certification — Landing Page & Portal
-![Private Skill Certification Landing Page](photos/dashboard.png)
+![Private Skill Certification Landing Page](photos/dashboard_main.png)
 
 ### 2. Certification Authority Admin Console & On-Chain Management
-![Certification Authority Admin Console](photos/admin-dashboard.png)
+![Certification Authority Admin Console](photos/admin.png)
 
 ### 3. Candidate Portal — ZK Proof Generation & Skill Certification
-![Candidate Portal ZK Proof Generation](photos/candidate-dashboard.png)
+![Candidate Portal ZK Proof Generation](photos/candidate.png)
 
-### 4. On-Chain Ledger Explorer & Deployed Contract Metadata
-![On-Chain Ledger Explorer](photos/on-chain-explorer.png)
+### 4. Mobile Responsive Navbar & Glassmorphism UI
+![Mobile Responsive UI](photos/ui_mobile.png)
 
-### 5. Mobile Responsive Navbar & Sapphire Glassmorphism UI
-![Mobile Responsive UI](photos/mobile-ui.png)
-
-### 6. Automated Vitest Unit Test Suite (4/4 Passing)
-![Vitest Test Suite Output](photos/test-run.png)
+### 5. Automated Vitest Unit Test Suite (4/4 Passing)
+![Vitest Test Suite Output](photos/run_test.png)
 
 ---
 
