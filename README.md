@@ -4,6 +4,7 @@
 [![GitHub Repo](https://img.shields.io/badge/GitHub-private--skill--certification-181717?style=flat-square&logo=github)](https://github.com/techyguy7866/private-skill-certification)
 [![Vercel Deployment](https://img.shields.io/badge/Vercel-private--skill--certification.vercel.app-000000?style=flat-square&logo=vercel)](https://private-skill-certification.vercel.app/)
 [![YouTube Demo](https://img.shields.io/badge/YouTube-Demo_Video-FF0000?style=flat-square&logo=youtube)](https://youtu.be/Dflwo9WLfhQ)
+[![Framework](https://img.shields.io/badge/Framework-Next.js_14-black?style=flat-square&logo=nextdotjs)](https://nextjs.org)
 [![CI/CD Pipeline](https://github.com/techyguy7866/private-skill-certification/actions/workflows/ci.yml/badge.svg)](https://github.com/techyguy7866/private-skill-certification/actions/workflows/ci.yml)
 [![Midnight Network](https://img.shields.io/badge/Network-Midnight_Preview-8b5cf6?style=flat-square)](https://explorer.preview.midnight.network)
 [![Compact Language](https://img.shields.io/badge/Compact-v0.23-06b6d4?style=flat-square)](https://midnight.network)

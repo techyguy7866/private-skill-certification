@@ -1,17 +1,20 @@
 {
   "name": "private-skill-certification",
   "version": "1.0.0",
-  "description": "Private Skill Certification (PSC) — Privacy-preserving zero-knowledge professional skill certification & assessment verification dApp built on the Midnight Network using Compact smart contracts.",
-  "type": "module",
-  "main": "src/index.ts",
+  "description": "Private Skill Certification dApp on Midnight Network",
+  "private": true,
   "scripts": {
-    "dev": "vite",
-    "compile": "compact compile contracts/counter.compact managed",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
     "test": "vitest run",
-    "build": "tsc --noEmit && vite build",
-    "deploy": "node --loader ts-node/esm src/integration/deploy.ts"
+    "test:watch": "vitest"
   },
   "dependencies": {
+    "next": "^14.2.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "@midnight-ntwrk/compact-runtime": "0.16.0",
     "@midnight-ntwrk/dapp-connector-api": "4.0.1",
     "@midnight-ntwrk/midnight-js-contracts": "4.1.1",
@@ -26,12 +29,12 @@
     "@midnight-ntwrk/midnight-js-utils": "4.1.1"
   },
   "devDependencies": {
+    "@types/node": "^20.14.10",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
-    "typescript": "^5.9.3",
-    "vite": "^5.4.11",
-    "vite-plugin-top-level-await": "^1.6.0",
-    "vite-plugin-wasm": "^3.6.0",
+    "typescript": "^5.5.3",
     "vitest": "^3.0.5"
   }
 }
