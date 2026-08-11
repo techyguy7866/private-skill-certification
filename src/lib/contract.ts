@@ -1,13 +1,13 @@
 
 
-export const CONTRACT_ADDRESS = "b90200a15ae9484abb49079060581dc8c46ad5315d89d022fc6dd284aa0e1cbe2fafdd";
+export const CONTRACT_ADDRESS = "a15ae9484abb49079060581dc8c46ad5315d89d022fc6dd284aa0e1cbe2fafdd";
 
 export const NETWORK_CONFIG = {
   networkId: "preview",
   indexerUrl: "https://indexer.preview.midnight.network/api/v4/graphql",
   nodeUrl: "https://rpc.preview.midnight.network",
   faucetUrl: "https://faucet.preview.midnight.network",
-  explorerUrl: "https://preview.midnightexplorer.com/contracts/" + "b90200a15ae9484abb49079060581dc8c46ad5315d89d022fc6dd284aa0e1cbe2fafdd",
+  explorerUrl: "https://preview.midnightexplorer.com/contracts/a15ae9484abb49079060581dc8c46ad5315d89d022fc6dd284aa0e1cbe2fafdd",
 };
 
 export class PrivateSkillCertificationClient {
